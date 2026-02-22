@@ -1,1 +1,70 @@
-.
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif; background:#0f1116; color:#e6e8ef; }
+
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid #23283a; background:#0b0d12; position:sticky; top:0; }
+.topbar h1 { margin:0; font-size:16px; }
+
+.layout { display:grid; grid-template-columns: 320px 1fr 340px; gap:12px; padding:12px; }
+.panel { border:1px solid #23283a; background:#0b0d12; border-radius:10px; padding:10px; height: calc(100vh - 76px); overflow:auto; }
+.panel h2 { margin:0 0 10px; font-size:14px; color:#bfc6da; }
+
+.row { display:flex; gap:8px; align-items:center; margin-bottom:10px; }
+.row input, .row select { flex:1; }
+
+input, select, button {
+  border:1px solid #23283a; background:#121625; color:#e6e8ef;
+  padding:8px 10px; border-radius:8px; outline:none;
+}
+button { cursor:pointer; white-space:nowrap; }
+button:hover { border-color:#3a4363; }
+
+.list { display:flex; flex-direction:column; gap:8px; }
+
+.itemCard {
+  border:1px solid #23283a; background:#111425; border-radius:10px; padding:10px;
+}
+.itemCard .meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.tag { font-size:12px; padding:2px 8px; border:1px solid #2a3150; border-radius:999px; color:#bfc6da; }
+
+.canvasWrap { display:flex; flex-direction:column; gap:10px; }
+.buildMeta { display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:8px; }
+.canvas {
+  position:relative;
+  height: calc(100vh - 150px);
+  border:1px dashed #2a3150;
+  background: radial-gradient(ellipse at top, #101428 0%, #0f1116 60%);
+  border-radius:12px;
+  overflow:hidden;
+}
+.hint { color:#7d86a7; font-size:12px; padding:2px 6px; }
+
+.canvasItem {
+  position:absolute;
+  border:1px solid #2a3150;
+  background:#0b0d12cc;
+  border-radius:10px;
+  padding:10px;
+  min-width:120px;
+  min-height:60px;
+}
+.canvasItem .title { font-size:12px; color:#bfc6da; margin-bottom:6px; }
+.canvasItem .content { white-space:pre-wrap; font-size:13px; line-height:1.35; }
+.canvasItem img { max-width:100%; max-height:100%; display:block; border-radius:8px; }
+
+.canvasItem .controls {
+  position:absolute; top:6px; right:6px; display:flex; gap:6px;
+}
+.canvasItem .controls button { padding:4px 6px; font-size:12px; }
+
+.resize-handle {
+  position:absolute; right:4px; bottom:4px;
+  width:14px; height:14px; border-radius:4px;
+  border:1px solid #3a4363; background:#141a2d;
+}
+
+.viewOnly .controls, .viewOnly .resize-handle { display:none; }
+
+.viewer { padding:12px; }
+.lockPanel { border:1px solid #23283a; background:#0b0d12; border-radius:10px; padding:12px; max-width:420px; }
+.hidden { display:none; }
+.muted { color:#8d97b8; font-size:12px; }
