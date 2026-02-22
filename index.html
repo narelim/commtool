@@ -1,1 +1,74 @@
-.
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Commission Builder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Commission Builder</h1>
+
+    <div class="toolbar">
+      <button id="btnNewBuild">새 신청서</button>
+      <button id="btnSaveBuild">저장</button>
+      <button id="btnExportText">문서로 내보내기</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- 좌: 블록 라이브러리 -->
+    <section class="panel">
+      <h2>블록 라이브러리</h2>
+
+      <div class="row">
+        <input id="blockSearch" placeholder="블록 검색(제목/태그)" />
+        <button id="btnNewTextBlock">+ 텍스트</button>
+        <button id="btnNewImageBlock">+ 이미지</button>
+      </div>
+
+      <div id="blockList" class="list"></div>
+    </section>
+
+    <!-- 중: 캔버스 -->
+    <section class="canvasWrap">
+      <div class="buildMeta">
+        <input id="buildTitle" placeholder="신청서 제목" />
+        <input id="buildCharacter" placeholder="캐릭터 (예: 아델)" />
+        <input id="buildAuTags" placeholder="AU 태그 (쉼표로 구분)" />
+        <input id="buildTags" placeholder="기타 태그 (쉼표)" />
+      </div>
+
+      <div id="canvas" class="canvas" aria-label="캔버스"></div>
+      <div class="hint">좌측 블록을 캔버스로 드래그. 카드 우하단으로 크기 조절.</div>
+    </section>
+
+    <!-- 우: 신청서 목록 -->
+    <section class="panel">
+      <h2>신청서 목록</h2>
+      <div class="row">
+        <input id="buildSearch" placeholder="제목/태그 검색" />
+        <select id="filterVisibility">
+          <option value="all">전체</option>
+          <option value="public">공개</option>
+          <option value="hidden">숨김</option>
+        </select>
+      </div>
+      <div id="buildList" class="list"></div>
+    </section>
+  </main>
+
+  <!-- Interact.js (드래그/리사이즈) -->
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
+  <!-- Firebase SDK (모듈) -->
+  <script type="module" src="app.js">
+    var admin = require("firebase-admin");
+    var serviceAccount = require("path/to/serviceAccountKey.json");
+    admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+    });
+  </script>
+</body>
+</html>
