@@ -11,6 +11,15 @@
     <h1>Commission Builder</h1>
 
     <div class="toolbar">
+      <div class="authbar" id="authBar">
+  <div class="authInputs">
+    <input id="authEmail" type="email" placeholder="관리자 이메일" autocomplete="username" />
+    <input id="authPw" type="password" placeholder="비밀번호" autocomplete="current-password" />
+    <button id="btnLogin">로그인</button>
+    <button id="btnLogout" class="hidden">로그아웃</button>
+  </div>
+  <div class="muted" id="authStatus">로그인 필요</div>
+</div>
       <button id="btnNewBuild">새 신청서</button>
       <button id="btnSaveBuild">저장</button>
       <button id="btnExportText">문서로 내보내기</button>
