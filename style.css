@@ -68,3 +68,8 @@ button:hover { border-color:#3a4363; }
 .lockPanel { border:1px solid #23283a; background:#0b0d12; border-radius:10px; padding:12px; max-width:420px; }
 .hidden { display:none; }
 .muted { color:#8d97b8; font-size:12px; }
+
+.authbar { display:flex; align-items:center; gap:10px; margin-left:12px; }
+.authInputs { display:flex; gap:8px; align-items:center; }
+.authInputs input { width: 160px; }
+#authStatus { font-size:12px; }
