@@ -1,1 +1,27 @@
-.
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>View</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1 id="viewTitle">신청서 보기</h1>
+  </header>
+
+  <main class="viewer">
+    <section id="lockPanel" class="lockPanel hidden">
+      <p>비밀번호가 설정된 신청서입니다.</p>
+      <input id="pwInput" type="password" placeholder="비밀번호" />
+      <button id="btnUnlock">열기</button>
+      <p id="pwMsg" class="muted"></p>
+    </section>
+
+    <div id="viewCanvas" class="canvas viewOnly"></div>
+  </main>
+
+  <script type="module" src="view.js"></script>
+</body>
+</html>
