@@ -7,6 +7,12 @@ import {
 import {
   getStorage, ref as sRef, uploadBytes, getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
 /** 1) 여기에 네 firebaseConfig 붙여넣기 */
 const firebaseConfig = {
@@ -20,10 +26,33 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
 const $ = (id) => document.getElementById(id);
+
+function setEditorLocked(locked) {
+  // 상단 저장/생성 버튼 잠그기
+  $("btnNewBuild").disabled = locked;
+  $("btnSaveBuild").disabled = locked;
+  $("btnExportText").disabled = locked;
+
+  $("btnNewTextBlock").disabled = locked;
+  $("btnNewImageBlock").disabled = locked;
+
+  // 입력창 잠그기
+  $("buildTitle").disabled = locked;
+  $("buildCharacter").disabled = locked;
+  $("buildAuTags").disabled = locked;
+  $("buildTags").disabled = locked;
+
+  // 캔버스 드롭 막기(로그인 전엔 추가 못 하게)
+  canvas.style.pointerEvents = locked ? "none" : "auto";
+  canvas.style.opacity = locked ? "0.6" : "1";
+
+  // 목록에서 수정/삭제 같은 버튼은 렌더 시에 locked 반영하도록(아래 renderBuilds 수정)
+}
 
 const canvas = $("canvas");
 const blockList = $("blockList");
@@ -247,8 +276,13 @@ function renderBlocks() {
 
 // ---------- Builds UI ----------
 function renderBuilds() {
+  const canEdit = !!auth.currentUser;
   const qText = ($("buildSearch").value || "").trim().toLowerCase();
   const vis = $("filterVisibility").value;
+  btnEdit.disabled = !canEdit;
+btnToggle.disabled = !canEdit;
+btnPw.disabled = !canEdit;
+btnDel.disabled = !canEdit;
 
   buildList.innerHTML = "";
 
@@ -508,6 +542,44 @@ async function loadAll() {
 $("blockSearch").addEventListener("input", renderBlocks);
 $("buildSearch").addEventListener("input", renderBuilds);
 $("filterVisibility").addEventListener("change", renderBuilds);
+
+// ---- Auth UI wiring ----
+$("btnLogin").onclick = async () => {
+  const email = $("authEmail").value.trim();
+  const pw = $("authPw").value;
+  if (!email || !pw) {
+    alert("이메일/비밀번호를 입력해줘.");
+    return;
+  }
+  try {
+    await signInWithEmailAndPassword(auth, email, pw);
+  } catch (e) {
+    console.error(e);
+    alert("로그인 실패: " + (e?.message || e));
+  }
+};
+
+$("btnLogout").onclick = async () => {
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.error(e);
+    alert("로그아웃 실패: " + (e?.message || e));
+  }
+};
+
+onAuthStateChanged(auth, (user) => {
+  const loggedIn = !!user;
+  $("authStatus").textContent = loggedIn ? `로그인됨 (${user.email})` : "로그인 필요";
+  $("btnLogout").classList.toggle("hidden", !loggedIn);
+  $("btnLogin").classList.toggle("hidden", loggedIn);
+
+  // 로그인 전: 편집 잠금
+  setEditorLocked(!loggedIn);
+
+  // 로그인 상태에 따라 버튼 렌더가 달라질 수 있으니 목록 재렌더
+  renderBuilds();
+});
 
 // start
 newBuild();
